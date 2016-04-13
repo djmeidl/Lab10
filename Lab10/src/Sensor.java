@@ -13,15 +13,15 @@ import javax.swing.border.LineBorder;
 public class Sensor extends JFrame
 {
 	
+	private Thread[] threads = new Thread[7];
 	private JButton mainClick;
 
 	
-	public Sensor(String num, int offset) throws InterruptedException
+	public Sensor(int num, int offset) 
 	{	
-		Thread thread;
-		thread = new Thread();
-		thread.start();
-		
+	
+		Thread thread = new Thread();
+		threads[num - 1] = thread;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(offset, 200, 100, 100);
 		getContentPane().setLayout(null);
@@ -46,7 +46,7 @@ public class Sensor extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				
 				System.out.print("Sensor " + num + " : ");
-				System.out.print(thread.getState() + "\n");
+			System.out.print(thread.getState() + "\n");
 			
 			}
 		});
@@ -54,15 +54,15 @@ public class Sensor extends JFrame
 	}
 	
 	//i can't figure out a cleaner way to separate the seventh sensor
-	public Sensor(String num, int offset, boolean isSeventh) throws InterruptedException
+	public Sensor(int num, int offset, boolean isSeventh)
 	{
 		/**		
 		boolean sev;
 		sev = isSeventh;
 		*/
-		Thread thread;
-		thread = new Thread();
-		thread.start();
+		Thread thread = new Thread();
+		threads[num - 1] = thread;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(offset, 200, 100, 100);
 		getContentPane().setLayout(null);
@@ -82,7 +82,7 @@ public class Sensor extends JFrame
 		mainClick.setBounds(0, 0, 100, 60);
 		yolo.add(mainClick);
 		
-		thread.join();
+		
 		mainClick.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -93,41 +93,52 @@ public class Sensor extends JFrame
 		
 	}
 
-	
+	public void runForThreads(){
+		
+		for (int i = 0; i < threads.length; i++)
+		{
+	         
+	         threads[i].start();
+	         
+		}
+	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Sensor s1 = new Sensor("1", 10);
+					Sensor s1 = new Sensor(1, 10);
 					s1.setVisible(true);
 					
-					Sensor s2 = new Sensor("2", 200);
+					Sensor s2 = new Sensor(2, 200);
 					s2.setVisible(true);
 					
-					Sensor s3 = new Sensor("3", 400);
+					Sensor s3 = new Sensor(3, 400);
 					s3.setVisible(true);
 					
-					Sensor s4 = new Sensor("4", 600);
+					Sensor s4 = new Sensor(4, 600);
 					s4.setVisible(true);
 					
-					Sensor s5 = new Sensor("5", 800);
+					Sensor s5 = new Sensor(5 , 800);
 					s5.setVisible(true);
 					
-					Sensor s6 = new Sensor("6", 1000);
+					Sensor s6 = new Sensor(6, 1000);
 					s6.setVisible(true);
 					
-					Sensor s7 = new Sensor("7", 1200, true);
+					Sensor s7 = new Sensor(7, 1200, true);
 					s7.setVisible(true);
 					
 					
-				} catch (Exception e) {
+				} 
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			
+			
+
+				
 			}
 			
 		});
-		
 		
 	
 
